@@ -1,0 +1,50 @@
+---
+title: "Assignment 10B: Nobel Prize (JSON) — Approach"
+author: "Chanice McKenzie"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+execute:
+  echo: true
+---
+
+# Introduction
+
+For Assignment 10B, I plan to use the official Nobel Prize API to explore how Nobel recognition has varied across fields, time periods, and laureates' backgrounds. Rather than simply listing winners, I want to understand changes in award patterns, representation, and the relationship between where laureates were born and where they worked when receiving a prize. The final deliverable will answer four questions using reproducible R data preparation and clear tables or visualizations.
+
+# Data Source and Planned Approach
+
+I will use the Nobel Prize organization's **version 2.1 REST API**, focusing on its laureates records and, if necessary, its Nobel Prizes records. The API provides JSON data about laureates, award years, categories, birth details, gender (when recorded), prize shares, and affiliations associated with awards. I will consult the official API documentation to confirm which fields and pagination options are available before writing the Code Base.
+
+I plan to retrieve the JSON directly from the API in R, inspect the nested structure, and transform it into tidy data frames. I anticipate creating a **laureate-level table** with one record per person or organization and an **award-level table** with one record per laureate–prize combination. When investigating affiliations, I may create a separate table with one record per award affiliation. Stable identifiers, rather than names, will be used to connect the tables. The analysis will include checks for duplicates, missing values, and the expected number of records after unnesting.
+
+# Four Planned Research Questions
+
+## Question 1: How has the distribution of Nobel awards by category changed across decades?
+
+I will group award records by category and decade to compare the volume and composition of awards over time. A grouped or stacked bar chart should make major shifts visible. I will distinguish **laureate-award records** from distinct prize events so that shared prizes are not misinterpreted as multiple separate prizes.
+
+## Question 2: How has the representation of women among individual Nobel laureate-award recipients changed over time and across categories?
+
+I plan to filter out organizations and records with unknown or unrecorded gender, then compare the proportion recorded as female across broad time periods and categories. A line chart or small-multiple bar chart could communicate the pattern. I will clearly label the denominator and avoid presenting changes in these records as evidence of the causes of unequal representation.
+
+## Question 3: How does age at the time of a Nobel award vary by category?
+
+This question requires combining a laureate's birth information with the year of each award. I will calculate an approximate age at award using the birth year and award year, then compare medians and distributions by category using boxplots or a summary table. I will exclude organizations and records where the required date information is missing, and I will note that year-based ages may differ by one year from exact ages on the award date.
+
+## Question 4: Which birth countries are most frequently associated with a different country of affiliation at the time of an award?
+
+This question goes beyond basic counting by connecting the laureate's **birth country** with the **country of an affiliation listed for the award**. I will identify records in which those two countries differ and summarize frequently occurring birth-country/affiliation-country combinations. A ranked table or heatmap could highlight notable patterns. Because a laureate can have multiple affiliations, I will check for duplicate award counts and define the counting rule before drawing conclusions. **Affiliation country is not citizenship**, and a different country does not by itself establish migration history.
+
+# Anticipated Data Challenges
+
+The main challenge will be the **nested JSON structure**. A laureate may receive more than one prize, and an award may list multiple affiliations. Flattening these arrays without defining the unit of observation could accidentally inflate counts. I will keep separate identifiers for laureates, awards, and affiliations, verify joins, and document how missing or duplicated values are handled.
+
+I also anticipate inconsistent availability of birth dates, gender, and affiliation details, particularly for organizations and older awards. Country labels can reflect historical borders or naming conventions, so I will prefer consistent available country fields while documenting their limitations. Finally, the API may return paginated results or be updated over time; the final report will record its retrieval date and explain how to rerun the data request from a URL without relying on a local file.
+
+
+# Sources
+
+- Nobel Prize Outreach. *Nobel Prize API — Getting Started*. https://nobelprize.readme.io/reference/getting-started
+- Nobel Prize Outreach. *Nobel Prize Developer Zone*. https://www.nobelprize.org/about/developer-zone-2/
